@@ -18,7 +18,7 @@
   </div>
 
   <div class="card card-room">
-    <button v-on:click="handleLogout" class="btn btn-block btn-danger">Sair</button>
+    <button v-on:click="handleLogout" class="btn btn-block btn-danger">Log out</button>
   </div>
 </div>
 </template>
