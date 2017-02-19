@@ -36,7 +36,8 @@ mix deps.get
 Create and migrate the database
 
 ```
-mix ecto.create ecto.migrate
+mix ecto.create
+mix ecto.migrate
 ```
 
 Start the server
