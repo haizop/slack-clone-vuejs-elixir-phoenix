@@ -14,7 +14,7 @@ To run the project locally:
 
 Install [Elixir](http://elixir-lang.org/install.html)
 
-Create `config/dev.secret.exs` and add the database connection config
+Create `api/config/dev.secret.exs` and add the database connection config
 with your postgres user info.
 
 Something like:
@@ -51,6 +51,7 @@ Install [Yarn](https://github.com/yarnpkg/yarn)
 
 Install dependencies
 
+*Note that this is /web, not /api/web*
 ```
 cd web
 yarn
