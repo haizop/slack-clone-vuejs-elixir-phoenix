@@ -12,15 +12,26 @@ To run the project locally:
 
 #### Running the Phoenix app
 
+Install [Elixir](http://elixir-lang.org/install.html)
+
+Create `config/dev.secret.exs` and add the database connection config
+with your postgres user info.
+
+Something like:
+```
+use Mix.Config
+
+config :sling, Sling.Repo,
+  username: "your_postgres_user",
+  password: "your_postgres_password"
+```
+
 Download dependencies
 
 ```
 cd api
 mix deps.get
 ```
-
-Edit the database connection config in `/config/dev.exs` or `config/dev.secret.exs`
-with your postgres user info if needed
 
 Create and migrate the database
 
