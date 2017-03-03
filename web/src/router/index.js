@@ -24,7 +24,7 @@ const router = new Router({
         default: Home,
         sidebar: Sidebar,
       },
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: false },
     },
     {
       path: '/rooms/:id',
@@ -33,7 +33,7 @@ const router = new Router({
         default: Room,
         sidebar: Sidebar,
       },
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: false },
     },
     {
       path: '/signin',
