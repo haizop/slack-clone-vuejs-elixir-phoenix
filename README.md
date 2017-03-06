@@ -58,6 +58,12 @@ cd web
 yarn
 ```
 
+Install node dependencies
+
+```
+npm install --save node-sass
+```
+
 Start the dev server
 
 ```
