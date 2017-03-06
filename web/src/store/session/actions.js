@@ -6,7 +6,7 @@ import { getData } from 'utils/get'
 import * as TYPES from '../types'
 
 export const connectToChain = ({ dispatch }, payload) =>
-  http.post('/sessions', payload)
+  http.post('/getProfile', payload)
   .then(getData)
   .then(({ data }) => {
     dispatch('setUser', data)
@@ -15,34 +15,32 @@ export const connectToChain = ({ dispatch }, payload) =>
   })
 
 export const joinChain = ({ dispatch }, payload) =>
-  http.post('/users', payload)
+  http.post('/authAgent', payload)
   .then(getData)
-  .then(({ data, meta }) => {
+  .then(({ data }) => {
     dispatch('setUser', data)
-    dispatch('setToken', meta)
-    dispatch('fetchUserRooms', data.id)
     return data // keep promise chain
   })
 
-export const login = ({ dispatch }, payload) =>
-  http.post('/sessions', payload)
-  .then(getData)
-  .then(({ data, meta }) => {
-    dispatch('setUser', data)
-    dispatch('setToken', meta)
-    dispatch('fetchUserRooms', data.id)
-    return data // keep promise chain
-  })
-
-export const signup = ({ dispatch }, payload) =>
-  http.post('/users', payload)
-  .then(getData)
-  .then(({ data, meta }) => {
-    dispatch('setUser', data)
-    dispatch('setToken', meta)
-    dispatch('fetchUserRooms', data.id)
-    return data // keep promise chain
-  })
+// export const login = ({ dispatch }, payload) =>
+//   http.post('/sessions', payload)
+//   .then(getData)
+//   .then(({ data, meta }) => {
+//     dispatch('setUser', data)
+//     dispatch('setToken', meta)
+//     dispatch('fetchUserRooms', data.id)
+//     return data // keep promise chain
+//   })
+//
+// export const signup = ({ dispatch }, payload) =>
+//   http.post('/users', payload)
+//   .then(getData)
+//   .then(({ data, meta }) => {
+//     dispatch('setUser', data)
+//     dispatch('setToken', meta)
+//     dispatch('fetchUserRooms', data.id)
+//     return data // keep promise chain
+//   })
 
 export const authenticate = ({ dispatch }) =>
   http.post('/sessions/refresh')
