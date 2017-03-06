@@ -1,20 +1,17 @@
 <template lang="html">
-  <div class="login">
-    <signin-form :login="login"></signin-form>
+  <div class="join">
     <div class="link-actions">
-      <router-link to="/signup">Signup</router-link>
+      <router-link to="/join">Join</router-link>
       <!-- <router-link to="/">Home</router-link> -->
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import store from '../store'
-import SigninForm from '../components/SigninForm'
 
 export default {
-  name: 'signin',
+  name: 'landing',
 
   beforeRouteEnter(to, from, next) {
     store.dispatch('checkUserToken')
@@ -26,14 +23,6 @@ export default {
     .catch(() => {
       next()
     })
-  },
-
-  methods: {
-    ...mapActions(['login']),
-  },
-
-  components: {
-    SigninForm,
   },
 };
 </script>

@@ -5,6 +5,7 @@ import Home from 'containers/Home'
 import Room from 'containers/Room'
 import Sidebar from 'containers/Sidebar'
 import NotFound from 'components/NotFound'
+import Join from 'containers/Join'
 import Signin from 'containers/Signin'
 import Signup from 'containers/Signup'
 import beforeEach from './beforeEach'
@@ -39,6 +40,13 @@ const router = new Router({
       path: '/signin',
       name: 'signin',
       component: Signin,
+      meta: { requiresAuth: false },
+    },
+
+    {
+      path: '/join',
+      name: 'join',
+      component: Join,
       meta: { requiresAuth: false },
     },
     {

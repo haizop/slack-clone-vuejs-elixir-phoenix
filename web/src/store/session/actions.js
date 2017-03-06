@@ -5,6 +5,25 @@ import { http } from 'plugins/http'
 import { getData } from 'utils/get'
 import * as TYPES from '../types'
 
+export const connectToChain = ({ dispatch }, payload) =>
+  http.post('/sessions', payload)
+  .then(getData)
+  .then(({ data }) => {
+    dispatch('setUser', data)
+    dispatch('fetchUserRooms', data.id)
+    return data // keep promise chain
+  })
+
+export const joinChain = ({ dispatch }, payload) =>
+  http.post('/users', payload)
+  .then(getData)
+  .then(({ data, meta }) => {
+    dispatch('setUser', data)
+    dispatch('setToken', meta)
+    dispatch('fetchUserRooms', data.id)
+    return data // keep promise chain
+  })
+
 export const login = ({ dispatch }, payload) =>
   http.post('/sessions', payload)
   .then(getData)
@@ -44,6 +63,15 @@ export const logout = ({ dispatch }) =>
   .then(() => {
     dispatch('unauthenticate')
   })
+
+export const checkUsername = ({ dispatch, state }) => {
+  if (!isEmpty(state.session.currentUser.username)) {
+    return Promise.resolve(state.session.currentUser.username)
+  }
+
+  return Promise.reject('NO_USERNAME') // Reject promise
+  .then(() => dispatch('connectToChain'))
+}
 
 export const checkUserToken = ({ dispatch, state }) => {
   if (!isEmpty(state.token)) {
