@@ -42,19 +42,19 @@ export const joinChain = ({ dispatch }, payload) =>
 //     return data // keep promise chain
 //   })
 
-export const authenticate = ({ dispatch }) =>
-  http.post('/sessions/refresh')
-  .then(getData)
-  .then(({ data, meta }) => {
-    dispatch('setUser', data)
-    dispatch('setToken', meta)
-    dispatch('fetchUserRooms', data.id)
-    return data  // keep promise chain
-  })
-  .catch(() => {
-    dispatch('unauthenticate')
-    return Promise.reject('FAIL_IN_LOAD_USER') // keep promise chain
-  })
+// export const authenticate = ({ dispatch }) =>
+//   http.post('/sessions/refresh')
+//   .then(getData)
+//   .then(({ data, meta }) => {
+//     dispatch('setUser', data)
+//     dispatch('setToken', meta)
+//     dispatch('fetchUserRooms', data.id)
+//     return data  // keep promise chain
+//   })
+//   .catch(() => {
+//     dispatch('unauthenticate')
+//     return Promise.reject('FAIL_IN_LOAD_USER') // keep promise chain
+//   })
 
 export const logout = ({ dispatch }) =>
   http.delete('/sessions')
@@ -70,25 +70,25 @@ export const checkUsername = ({ dispatch, state }) => {
   return Promise.reject('NO_USERNAME') // Reject promise
   .then(() => dispatch('connectToChain'))
 }
-
-export const checkUserToken = ({ dispatch, state }) => {
-  if (!isEmpty(state.token)) {
-    return Promise.resolve(state.token)
-  }
-
-  return localforage.getItem('token')
-    .then((token) => {
-      if (isEmpty(token)) {
-        // Token is not saved in localstorage
-        return Promise.reject('NO_TOKEN') // Reject promise
-      }
-
-      // Put the token in the vuex store
-      return dispatch('setToken', token) // keep promise chain
-    })
-    // With the token in hand, retrieves the user's data, validating the token
-    .then(() => dispatch('authenticate'))
-}
+//
+// export const checkUserToken = ({ dispatch, state }) => {
+//   if (!isEmpty(state.token)) {
+//     return Promise.resolve(state.token)
+//   }
+//
+//   return localforage.getItem('token')
+//     .then((token) => {
+//       if (isEmpty(token)) {
+//         // Token is not saved in localstorage
+//         return Promise.reject('NO_TOKEN') // Reject promise
+//       }
+//
+//       // Put the token in the vuex store
+//       return dispatch('setToken', token) // keep promise chain
+//     })
+//     // With the token in hand, retrieves the user's data, validating the token
+//     .then(() => dispatch('authenticate'))
+// }
 
 export const syncPresentUsers = ({ commit }, presences) => {
   const presentUsers = [];
