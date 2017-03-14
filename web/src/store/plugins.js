@@ -1,21 +1,21 @@
 import localforage from 'localforage'
 import { Presence } from 'phoenix'
-import { setToken as httpSetToken } from 'plugins/http'
+// import { setToken as httpSetToken } from 'plugins/http'
 import { Socket } from 'plugins/socket'
 import * as TYPES from './types'
 
-export const subscribeSetToken = (store) => {
-  store.subscribe((mutation, { session }) => {
-    if (TYPES.SET_TOKEN === mutation.type) {
-      // Connect the socket
-      Socket.connect(session.token)
-      // Set the Axios Authorization header with the token
-      httpSetToken(session.token)
-      // Sets the token to the local storage for auto-login purpose
-      localforage.setItem('token', session.token)
-    }
-  })
-}
+// export const subscribeSetToken = (store) => {
+//   store.subscribe((mutation, { session }) => {
+//     if (TYPES.SET_TOKEN === mutation.type) {
+//       // Connect the socket
+//       Socket.connect(session.token)
+//       // Set the Axios Authorization header with the token
+//       httpSetToken(session.token)
+//       // Sets the token to the local storage for auto-login purpose
+//       localforage.setItem('token', session.token)
+//     }
+//   })
+// }
 
 export const subscribeLogout = (store) => {
   store.subscribe((mutation) => {
@@ -23,7 +23,7 @@ export const subscribeLogout = (store) => {
       // Disconnect the socket
       Socket.disconnect()
       // Remove the token to the local storage
-      localforage.removeItem('token')
+      // localforage.removeItem('token')
     }
   })
 }

@@ -11,11 +11,11 @@ export const http = axios.create({
 /**
 * Helper method to set the header with the token
 */
-export function setToken(token) {
-  http.defaults.headers.common.Accept = 'application/json'
-  http.defaults.headers.common['Content-Type'] = 'application/json'
-  http.defaults.headers.common.Authorization = `Bearer ${token}`
-}
+// export function setToken(token) {
+//   http.defaults.headers.common.Accept = 'application/json'
+//   http.defaults.headers.common['Content-Type'] = 'application/json'
+//   http.defaults.headers.common.Authorization = `Bearer ${token}`
+// }
 
 // receive store and data by options
 // https://vuejs.org/v2/guide/plugins.html
