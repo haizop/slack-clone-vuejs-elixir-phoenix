@@ -1,7 +1,9 @@
 <template lang="html">
-  <div class="signup">
-    hello
-    <signup-form :joinChain="joinChain"></signup-form>
+  <div class="join">
+    <join-form :joinChain="joinChain"></join-form>
+    <div class="link-actions">
+      <router-link to="/">Home</router-link>
+    </div>
   </div>
 </template>
 
@@ -38,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss">
-.signup {
+.join {
   display: flex;
   flex-grow: 1;
   flex-direction: column;

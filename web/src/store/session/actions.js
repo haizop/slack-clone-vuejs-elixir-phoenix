@@ -13,48 +13,19 @@ export const connectToChain = ({ dispatch }, payload) =>
     dispatch('fetchUserRooms', data.id)
     return data // keep promise chain
   })
+  .catch(() => {
+    dispatch('logOut')
+    return Promise.reject('FAIL_IN_LOAD_USER') // keep promise chain
+  })
 
 export const joinChain = ({ dispatch }, payload) =>
   http.post('/authAgent', payload)
   .then(getData)
   .then(({ data }) => {
     dispatch('setUser', data)
+    dispatch('fetchUserRooms', data.id)
     return data // keep promise chain
   })
-
-// export const login = ({ dispatch }, payload) =>
-//   http.post('/sessions', payload)
-//   .then(getData)
-//   .then(({ data, meta }) => {
-//     dispatch('setUser', data)
-//     dispatch('setToken', meta)
-//     dispatch('fetchUserRooms', data.id)
-//     return data // keep promise chain
-//   })
-//
-// export const signup = ({ dispatch }, payload) =>
-//   http.post('/users', payload)
-//   .then(getData)
-//   .then(({ data, meta }) => {
-//     dispatch('setUser', data)
-//     dispatch('setToken', meta)
-//     dispatch('fetchUserRooms', data.id)
-//     return data // keep promise chain
-//   })
-
-// export const authenticate = ({ dispatch }) =>
-//   http.post('/sessions/refresh')
-//   .then(getData)
-//   .then(({ data, meta }) => {
-//     dispatch('setUser', data)
-//     dispatch('setToken', meta)
-//     dispatch('fetchUserRooms', data.id)
-//     return data  // keep promise chain
-//   })
-//   .catch(() => {
-//     dispatch('unauthenticate')
-//     return Promise.reject('FAIL_IN_LOAD_USER') // keep promise chain
-//   })
 
 export const logout = ({ dispatch }) =>
   http.delete('/sessions')
@@ -66,12 +37,27 @@ export const checkUsername = ({ dispatch, state }) => {
   if (!isEmpty(state.session.currentUser.username)) {
     return Promise.resolve(state.session.currentUser.username)
   }
-
   return Promise.reject('NO_USERNAME') // Reject promise
   .then(() => dispatch('connectToChain'))
 }
+
+export const syncPresentUsers = ({ commit }, presences) => {
+  const presentUsers = [];
+  Presence.list(presences, (id, { metas: [first] }) => first.user)
+          .map(user => presentUsers.push(user))
+  commit(TYPES.ROOM_PRESENCE_UPDATE, presentUsers)
+}
+
+export const setUser = ({ commit }, user) => {
+  // Commit the mutations
+  commit(TYPES.CONNECTED_TO_CHAIN, user)
+  return Promise.resolve(user)  // keep promise chain
+}
+
+export const logOut = ({ commit }) => commit(TYPES.LOGOUT)
+
 //
-// export const checkUserToken = ({ dispatch, state }) => {
+// export const checkUsername = ({ dispatch, state }) => {
 //   if (!isEmpty(state.token)) {
 //     return Promise.resolve(state.token)
 //   }
@@ -89,29 +75,3 @@ export const checkUsername = ({ dispatch, state }) => {
 //     // With the token in hand, retrieves the user's data, validating the token
 //     .then(() => dispatch('authenticate'))
 // }
-
-export const syncPresentUsers = ({ commit }, presences) => {
-  const presentUsers = [];
-  Presence.list(presences, (id, { metas: [first] }) => first.user)
-          .map(user => presentUsers.push(user))
-  commit(TYPES.ROOM_PRESENCE_UPDATE, presentUsers)
-}
-
-export const setUser = ({ commit }, user) => {
-  // Commit the mutations
-  commit(TYPES.AUTHENTICATION_SUCCESS, user)
-
-  return Promise.resolve(user)  // keep promise chain
-}
-
-export const setToken = ({ commit }, payload) => {
-  // prevent if payload is a object
-  const token = (isEmpty(payload)) ? null : payload.token || payload
-
-   // Commit the mutations
-  commit(TYPES.SET_TOKEN, token)
-
-  return Promise.resolve(token) // keep promise chain
-}
-
-export const unauthenticate = ({ commit }) => commit(TYPES.LOGOUT)

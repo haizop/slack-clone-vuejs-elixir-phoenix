@@ -1,8 +1,9 @@
 <template lang="html">
-  <div class="join">
+  <div class="holochain-error">
+    Holochain broke. ¯\_(ツ)_/¯
     <div class="link-actions">
       <router-link to="/join">Join</router-link>
-      <!-- <router-link to="/">Home</router-link> -->
+      <router-link to="/">Home</router-link>
     </div>
   </div>
 </template>
@@ -11,24 +12,12 @@
 import store from '../store'
 
 export default {
-  name: 'landing',
-
-  beforeRouteEnter(to, from, next) {
-    store.dispatch('checkUserToken')
-    .then(() => {
-      next({
-        path: from.fullPath,
-      })
-    })
-    .catch(() => {
-      next()
-    })
-  },
+  name: 'holochain-error',
 };
 </script>
 
 <style lang="scss">
-.login {
+.holochain-error {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
